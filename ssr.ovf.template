@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Envelope xmlns="http://schemas.dmtf.org/ovf/envelope/1"
+               xmlns:vmw="http://www.vmware.com/schema/ovf"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.dmtf.org/ovf/envelope/1"-->
+<Envelope vmw:buildId="build-1312298" xmlns="http://schemas.dmtf.org/ovf/envelope/1" xmlns:cim="http://schemas.dmtf.org/wbem/wscim/1/common" xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:rasd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" xmlns:vmw="http://www.vmware.com/schema/ovf" xmlns:vssd="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_VirtualSystemSettingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <References>
+        <File ovf:id="file1" ovf:href="${SSRDISKNAME}.vmdk"/>
+        <File ovf:id="file2" ovf:href="nocloud.vmdk"/>
+    </References>
+
+    <DiskSection>
+        <Info>Virtual disk information</Info>
+        <Disk ovf:capacity="60" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="vmdisk1" ovf:fileRef="file1" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
+        <Disk ovf:capacity="1" ovf:capacityAllocationUnits="byte * 2^30" ovf:diskId="vmdisk2" ovf:fileRef="file2" ovf:format="http://www.vmware.com/interfaces/specifications/vmdk.html#streamOptimized" ovf:populatedSize="0"/>
+    </DiskSection>
+
+    <NetworkSection>
+        <Info>The list of logical networks</Info>
+        <Network ovf:name="WAN1">
+            <Description>The Primary WAN network</Description>
+        </Network>
+        <Network ovf:name="WAN2">
+            <Description>The Secondary WAN network</Description>
+        </Network>
+        <Network ovf:name="LAN">
+            <Description>The LAN network</Description>
+        </Network>
+        <Network ovf:name="HASync">
+            <Description>The HA sync (control) network</Description>
+        </Network>
+        <Network ovf:name="HAFabric">
+            <Description>The HA fabric (data) network</Description>
+        </Network>
+    </NetworkSection>
+
+    <VirtualSystem ovf:id="ssr">
+        <Info>Virtual Machine</Info>
+        <Name>ssr</Name>
+
+        <OperatingSystemSection ovf:id="109" ovf:version="8" vmw:osType="oracleLinux8_64Guest">
+            <Info>The kind of installed guest operating system</Info>
+        </OperatingSystemSection>
+
+        <!-- Define User-Configurable Properties -->
+        <ProductSection>
+            <Info>Software Customization</Info>
+            <Property ovf:key="onboardingMode" ovf:type="string" ovf:userConfigurable="true" ovf:qualifiers="ValueMap{&quot;mist-managed&quot;,&quot;conductor-managed&quot;,&quot;conductor&quot;}" ovf:value="">
+                <Label>Onboarding Mode</Label>
+                <Description>How should this device be onboarded. Must be one of: mist-managed, conductor-managed, or conductor. Each option has required and optional configuration parameters, please see the next sections for details.</Description>
+            </Property>
+            <Category>Mist Managed Configuration</Category>
+            <Property ovf:key="regCode" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Registration Code</Label>
+                <Description>Registration Code obtained from the Mist portal for the specific organization to which the device should register. This option is required for this onboarding mode.</Description>
+            </Property>
+            <Property ovf:key="routerName" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Router Name</Label>
+                <Description>The name that will be used to identify this device in Mist inventory. This is optional. If not specified, default bootstrapper logic will be used.</Description>
+            </Property>
+            <Category>Conductor Managed Configuration</Category>
+            <Property ovf:key="conductor1" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Primary Conductor IP Address</Label>
+                <Description>The routable IP Address of the first Conductor node to which the router will connect. This option is required for this onboarding mode.</Description>
+            </Property>
+            <Property ovf:key="conductor2" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Secondary Conductor IP Address (optional)</Label>
+                <Description>The optional routable IP Address of the secondary Conductor node to which the router will connect. this is optional and should be specified if the conductor is HA.</Description>
+            </Property>
+            <Property ovf:key="assetName" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Asset ID</Label>
+                <Description>The asset ID that this device will report to the conductor. This is optional. If not specified, default bootstrapper logic will be used.</Description>
+            </Property>
+            <Category>Conductor Configuration</Category>
+            <Property ovf:key="conductorName" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Conductor Name</Label>
+                <Description>The name of the conductor</Description>
+            </Property>
+            <Property ovf:key="nodeName" ovf:type="string" ovf:userConfigurable="true" ovf:qualifiers="ValueMap{&quot;node0&quot;,&quot;node1&quot;}" ovf:value="node0">
+                <Label>Node Name</Label>
+                <Description>The name of the node within an HA cluster. If the conductor is to be HA, ensure a node with each name is instantiated.</Description>
+            </Property>
+            <Property ovf:key="artifactoryUser" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Artifactory User</Label>
+                <Description>The username provided for acccess to SSR software. Optional, may be configured directly after initialization.</Description>
+            </Property>
+            <Property ovf:key="artifactoryPassword" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Artifactory Password</Label>
+                <Description>The password/token provided for access to SSR software. Optional, may be configured directly after initialization.</Description>
+            </Property>
+            <Property ovf:key="nodeIp" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Node IP</Label>
+                <Description>Optional management address with prefix in A.B.C.D/Y format.</Description>
+            </Property>
+            <Property ovf:key="nodeGateway" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Node Gateway</Label>
+                <Description>Optional management gateway address.</Description>
+            </Property>
+            <Property ovf:key="interfaceName" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Management Interface</Label>
+                <Description>Optional management interface name in ge-0-X format. If not specified, devicemap will be used.</Description>
+            </Property>
+            <Property ovf:key="dnsServer1" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>DNS Server 1</Label>
+                <Description>Optional primary DNS server when configuring management interface.</Description>
+            </Property>
+            <Property ovf:key="dnsServer2" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>DNS Server 2</Label>
+                <Description>Optional secondary DNS server when configuring management interface.</Description>
+            </Property>
+            <Property ovf:key="clustered" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="false">
+                <Label>Clustered</Label>
+                <Description>Whether or not this Conductor will be HA.</Description>
+            </Property>
+            <Property ovf:key="haIp" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>HA IP</Label>
+                <Description>Optional HA IP address in A.B.C.D format. If not specified, default values will be used</Description>
+            </Property>
+            <Property ovf:key="haInterface" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>HA Interface</Label>
+                <Description>Optional HA interface name in ge-0-X format. If not specified, devicemap will be used.</Description>
+            </Property>
+            <Property ovf:key="haPeerIp" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>HA Peer IP</Label>
+                <Description>Optional HA peer IP</Description>
+            </Property>
+            <Property ovf:key="haPeerName" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>HA Peer Name</Label>
+                <Description>Optional HA peer name</Description>
+            </Property>
+            <Property ovf:key="learnFromHaPeer" ovf:type="boolean" ovf:userConfigurable="true" ovf:value="false">
+                <Label>Learn from HA Peer</Label>
+                <Description>Whether to attempt to retrieve information from HA peer. Should only be optionally set for the second node of an HA cluster.</Description>
+            </Property>
+            <Property ovf:key="haPeerUsername" ovf:type="string" ovf:Configurable="true" ovf:value="">
+                <Label>HA Peer Username</Label>
+                <Description>The username to use when connecting to the HA peer to retrieve information.</Description>
+            </Property>
+            <Property ovf:key="haPeerPassword" ovf:type="string" ovf:Configurable="true" ovf:value="">
+                <Label>HA Peer Password</Label>
+                <Description>The unencrypted password to use when connecting to the HA peer to retrieve information.</Description>
+            </Property>
+        </ProductSection>
+
+        <VirtualHardwareSection ovf:transport="com.vmware.guestInfo">
+            <Info>Virtual hardware requirements</Info>
+            <System>
+                <vssd:ElementName>Virtual Hardware Family</vssd:ElementName>
+                <vssd:InstanceID>0</vssd:InstanceID>
+                <vssd:VirtualSystemIdentifier>ssr</vssd:VirtualSystemIdentifier>
+                <vssd:VirtualSystemType>vmx-14</vssd:VirtualSystemType>
+            </System>
+            <Item>
+                <rasd:AllocationUnits>hertz * 10^6</rasd:AllocationUnits>
+                <rasd:Description>Number of Virtual CPUs</rasd:Description>
+                <rasd:ElementName>2 virtual CPUs</rasd:ElementName>
+                <rasd:InstanceID>1</rasd:InstanceID>
+                <rasd:ResourceType>3</rasd:ResourceType>
+                <rasd:VirtualQuantity>4</rasd:VirtualQuantity>
+            </Item>
+            <Item>
+                <rasd:AllocationUnits>byte * 2^20</rasd:AllocationUnits>
+                <rasd:Description>Memory Size</rasd:Description>
+                <rasd:ElementName>8192MB of memory</rasd:ElementName>
+                <rasd:InstanceID>2</rasd:InstanceID>
+                <rasd:ResourceType>4</rasd:ResourceType>
+                <rasd:VirtualQuantity>8192</rasd:VirtualQuantity>
+            </Item>
+            <Item>
+                <rasd:Address>0</rasd:Address>
+                <rasd:Description>SCSI Controller</rasd:Description>
+                <rasd:ElementName>SCSI controller 0</rasd:ElementName>
+                <rasd:InstanceID>3</rasd:InstanceID>
+                <rasd:ResourceSubType>VirtualSCSI</rasd:ResourceSubType>
+                <rasd:ResourceType>6</rasd:ResourceType>
+            </Item>
+            <Item>
+                <rasd:Address>1</rasd:Address>
+                <rasd:Description>IDE Controller</rasd:Description>
+                <rasd:ElementName>IDE 1</rasd:ElementName>
+                <rasd:InstanceID>4</rasd:InstanceID>
+                <rasd:ResourceType>5</rasd:ResourceType>
+            </Item>
+            <Item>
+                <rasd:Address>0</rasd:Address>
+                <rasd:Description>IDE Controller</rasd:Description>
+                <rasd:ElementName>IDE 0</rasd:ElementName>
+                <rasd:InstanceID>5</rasd:InstanceID>
+                <rasd:ResourceType>5</rasd:ResourceType>
+            </Item>
+            <Item ovf:required="false">
+                <rasd:AutomaticAllocation>false</rasd:AutomaticAllocation>
+                <rasd:ElementName>Video card</rasd:ElementName>
+                <rasd:InstanceID>6</rasd:InstanceID>
+                <rasd:ResourceType>24</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="enable3DSupport" vmw:value="false"/>
+                <vmw:Config ovf:required="false" vmw:key="use3dRenderer" vmw:value="automatic"/>
+                <vmw:Config ovf:required="false" vmw:key="useAutoDetect" vmw:value="false"/>
+                <vmw:Config ovf:required="false" vmw:key="videoRamSizeInKB" vmw:value="8192"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>0</rasd:AddressOnParent>
+                <rasd:ElementName>Hard disk 1</rasd:ElementName>
+                <rasd:HostResource>ovf:/disk/vmdisk1</rasd:HostResource>
+                <rasd:InstanceID>7</rasd:InstanceID>
+                <rasd:Parent>3</rasd:Parent>
+                <rasd:ResourceType>17</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="backing.writeThrough" vmw:value="false"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>1</rasd:AddressOnParent>
+                <rasd:ElementName>Hard disk 2</rasd:ElementName>
+                <rasd:HostResource>ovf:/disk/vmdisk2</rasd:HostResource>
+                <rasd:InstanceID>8</rasd:InstanceID>
+                <rasd:Parent>3</rasd:Parent>
+                <rasd:ResourceType>17</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="backing.writeThrough" vmw:value="false"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>7</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>WAN1</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;WAN1&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-0</rasd:ElementName>
+                <rasd:InstanceID>9</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>8</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>WAN2</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;WAN2&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-1</rasd:ElementName>
+                <rasd:InstanceID>10</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>9</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>LAN</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;LAN&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-2</rasd:ElementName>
+                <rasd:InstanceID>11</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>10</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>HASync</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;HASync&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-3</rasd:ElementName>
+                <rasd:InstanceID>12</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>11</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>HAFabric</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;HAFabric&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-4</rasd:ElementName>
+                <rasd:InstanceID>13</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+        </VirtualHardwareSection>
+    </VirtualSystem>
+</Envelope>

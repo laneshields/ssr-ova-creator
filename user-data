@@ -1,0 +1,6 @@
+#cloud-config
+runcmd:
+- NOCLOUD_DEVICE=`/sbin/blkid -tLABEL=CIDATA -odevice`
+- /bin/mount $NOCLOUD_DEVICE /mnt
+- /mnt/get_environment_data > /root/ovf-env.xml
+- /mnt/parse_environment.py
