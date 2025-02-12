@@ -43,9 +43,9 @@ echo "Creating OVF from template"
 envsubst < ssr.ovf.template > ssr.ovf
 
 echo "Creating manifest file with checksums"
-echo "SHA256\(ssr.ovf\)= `sha256sum ssr.ovf | awk '{print $1}'` > ssr.mf
-echo "SHA256\(nocloud.vmdk\)= `sha256sum nocloud.vmdk | awk '{print $1}'` >> ssr.mf
-echo "SHA256\(${SSRDISKNAME}.vmdk\)= `sha256sum ${SSRDISKNAME}.vmdk | awk '{print $1}'`" >> ssr.mf
+echo SHA256\(ssr.ovf\)= `sha256sum ssr.ovf | awk '{print $1}'` > ssr.mf
+echo SHA256\(nocloud.vmdk\)= `sha256sum nocloud.vmdk | awk '{print $1}'` >> ssr.mf
+echo SHA256\(${SSRDISKNAME}.vmdk\)= `sha256sum ${SSRDISKNAME}.vmdk | awk '{print $1}'` >> ssr.mf
 
 echo "Creating OVA package"
 tar -cvf ${SSRDISKNAME}.ova ssr.ovf ssr.mf nocloud.vmdk ${SSRDISKNAME}.vmdk
