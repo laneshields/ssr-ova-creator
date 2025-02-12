@@ -165,7 +165,8 @@ int main() {
 
     char *replyData = replyPayload + 2; // skip return code and space
     int replyDataLen = replyPayloadLen - 2;
-    printf("%s\n", replyData);
+    write(STDOUT_FILENO, replyData, replyDataLen);
+    write(STDOUT_FILENO, "\n", 1);
 
     // Clean up
     free(recvBuf);
