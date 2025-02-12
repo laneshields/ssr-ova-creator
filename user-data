@@ -1,4 +1,5 @@
 #cloud-config
+ssh_pwauth: True
 runcmd:
 - NOCLOUD_DEVICE=`/sbin/blkid -tLABEL=CIDATA -odevice`
 - /bin/mount $NOCLOUD_DEVICE /mnt
