@@ -18,20 +18,29 @@
 
     <NetworkSection>
         <Info>The list of logical networks</Info>
-        <Network ovf:name="WAN1">
-            <Description>The Primary WAN network</Description>
+        <Network ovf:name="ge-0-0">
+            <Description>Network to attach to ge-0-0</Description>
         </Network>
-        <Network ovf:name="WAN2">
-            <Description>The Secondary WAN network</Description>
+        <Network ovf:name="ge-0-1">
+            <Description>Network to attach to ge-0-1</Description>
         </Network>
-        <Network ovf:name="LAN">
-            <Description>The LAN network</Description>
+        <Network ovf:name="ge-0-2">
+            <Description>Network to attach to ge-0-2</Description>
         </Network>
-        <Network ovf:name="HASync">
-            <Description>The HA sync (control) network</Description>
+        <Network ovf:name="ge-0-3">
+            <Description>Network to attach to ge-0-3</Description>
         </Network>
-        <Network ovf:name="HAFabric">
-            <Description>The HA fabric (data) network</Description>
+        <Network ovf:name="ge-0-4">
+            <Description>Network to attach to ge-0-4</Description>
+        </Network>
+        <Network ovf:name="ge-0-5">
+            <Description>Network to attach to ge-0-5</Description>
+        </Network>
+        <Network ovf:name="ge-0-6">
+            <Description>Network to attach to ge-0-6</Description>
+        </Network>
+        <Network ovf:name="ge-0-7">
+            <Description>Network to attach to ge-0-7</Description>
         </Network>
     </NetworkSection>
 
@@ -50,6 +59,21 @@
                 <Label>Onboarding Mode</Label>
                 <Description>How should this device be onboarded. Must be one of: mist-managed, conductor-managed, or conductor. Each option has required and optional configuration parameters, please see the next sections for details.</Description>
             </Property>
+
+            <Category>Interface ge-0-0 Static Configuration</Category>
+            <Property ovf:key="staticAddress" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Static Address and Prefix</Label>
+                <Description>Optional static address and prefix to configure on ge-0-0 in A.B.C.D/Y format.</Description>
+            </Property>
+            <Property ovf:key="staticGateway" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
+                <Label>Static Gateway Address</Label>
+                <Description>Optional gateway address when configuring a static address on ge-0-0.</Description>
+            </Property>
+            <Property ovf:key="vlan" ovf:type="uint16" ovf:userConfigurable="true" ovf:value="0">
+                <Label>VLAN for ge-0-0</Label>
+                <Description>Optional VLAN tag to use on interface ge-0-0. This is typically not used in VMWare environments.</Description>
+            </Property>
+
             <Category>Mist Managed Configuration</Category>
             <Property ovf:key="regCode" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
                 <Label>Registration Code</Label>
@@ -59,6 +83,7 @@
                 <Label>Router Name</Label>
                 <Description>The name that will be used to identify this device in Mist inventory. This is optional. If not specified, default bootstrapper logic will be used.</Description>
             </Property>
+
             <Category>Conductor Managed Configuration</Category>
             <Property ovf:key="conductor1" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
                 <Label>Primary Conductor IP Address</Label>
@@ -72,6 +97,7 @@
                 <Label>Asset ID</Label>
                 <Description>The asset ID that this device will report to the conductor. This is optional. If not specified, default bootstrapper logic will be used.</Description>
             </Property>
+
             <Category>Conductor Configuration</Category>
             <Property ovf:key="conductorName" ovf:type="string" ovf:userConfigurable="true" ovf:value="">
                 <Label>Conductor Name</Label>
@@ -220,8 +246,8 @@
             <Item>
                 <rasd:AddressOnParent>7</rasd:AddressOnParent>
                 <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
-                <rasd:Connection>WAN1</rasd:Connection>
-                <rasd:Description>VmxNet3 ethernet adapter on &quot;WAN1&quot;</rasd:Description>
+                <rasd:Connection>ge-0-0</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-0&quot;</rasd:Description>
                 <rasd:ElementName>ge-0-0</rasd:ElementName>
                 <rasd:InstanceID>9</rasd:InstanceID>
                 <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
@@ -231,8 +257,8 @@
             <Item>
                 <rasd:AddressOnParent>8</rasd:AddressOnParent>
                 <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
-                <rasd:Connection>WAN2</rasd:Connection>
-                <rasd:Description>VmxNet3 ethernet adapter on &quot;WAN2&quot;</rasd:Description>
+                <rasd:Connection>ge-0-1</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-1&quot;</rasd:Description>
                 <rasd:ElementName>ge-0-1</rasd:ElementName>
                 <rasd:InstanceID>10</rasd:InstanceID>
                 <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
@@ -242,8 +268,8 @@
             <Item>
                 <rasd:AddressOnParent>9</rasd:AddressOnParent>
                 <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
-                <rasd:Connection>LAN</rasd:Connection>
-                <rasd:Description>VmxNet3 ethernet adapter on &quot;LAN&quot;</rasd:Description>
+                <rasd:Connection>ge-0-2</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-2&quot;</rasd:Description>
                 <rasd:ElementName>ge-0-2</rasd:ElementName>
                 <rasd:InstanceID>11</rasd:InstanceID>
                 <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
@@ -253,8 +279,8 @@
             <Item>
                 <rasd:AddressOnParent>10</rasd:AddressOnParent>
                 <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
-                <rasd:Connection>HASync</rasd:Connection>
-                <rasd:Description>VmxNet3 ethernet adapter on &quot;HASync&quot;</rasd:Description>
+                <rasd:Connection>ge-0-3</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-3&quot;</rasd:Description>
                 <rasd:ElementName>ge-0-3</rasd:ElementName>
                 <rasd:InstanceID>12</rasd:InstanceID>
                 <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
@@ -264,10 +290,43 @@
             <Item>
                 <rasd:AddressOnParent>11</rasd:AddressOnParent>
                 <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
-                <rasd:Connection>HAFabric</rasd:Connection>
-                <rasd:Description>VmxNet3 ethernet adapter on &quot;HAFabric&quot;</rasd:Description>
+                <rasd:Connection>ge-0-4</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-4&quot;</rasd:Description>
                 <rasd:ElementName>ge-0-4</rasd:ElementName>
                 <rasd:InstanceID>13</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>12</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>ge-0-5</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-5&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-5</rasd:ElementName>
+                <rasd:InstanceID>14</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>13</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>ge-0-6</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-6&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-6</rasd:ElementName>
+                <rasd:InstanceID>15</rasd:InstanceID>
+                <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
+                <rasd:ResourceType>10</rasd:ResourceType>
+                <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
+            </Item>
+            <Item>
+                <rasd:AddressOnParent>14</rasd:AddressOnParent>
+                <rasd:AutomaticAllocation>true</rasd:AutomaticAllocation>
+                <rasd:Connection>ge-0-7</rasd:Connection>
+                <rasd:Description>VmxNet3 ethernet adapter on &quot;ge-0-7&quot;</rasd:Description>
+                <rasd:ElementName>ge-0-7</rasd:ElementName>
+                <rasd:InstanceID>16</rasd:InstanceID>
                 <rasd:ResourceSubType>VmxNet3</rasd:ResourceSubType>
                 <rasd:ResourceType>10</rasd:ResourceType>
                 <vmw:Config ovf:required="false" vmw:key="wakeOnLanEnabled" vmw:value="true"/>
